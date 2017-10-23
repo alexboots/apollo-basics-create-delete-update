@@ -13,16 +13,15 @@ class SongCreate extends Component {
     value.length ? this.setState({ value }) : this.setState({ value: null });
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e, data) => {
+    e.preventDefault();
+
     const title = this.state.value; 
-    console.log('title', title);
-
-    console.log('this.props', this.props);
-
+  
     this.props.mutate({
       variables: { title: title }
     }).then(({ data }) => {
-        console.log('got data', data);
+        console.log('data', data);
       }).catch((error) => {
         console.log('there was an error sending the query', error);
       });
@@ -43,19 +42,13 @@ class SongCreate extends Component {
             }}
             placeholder='Title...'
             onChange={ this.handleChange }
+            action={ true }
           />
         </Form>
       </div>
     )
   }
 } 
-
-
-const NewEntryWithData = graphql(submitRepository, {
-  props: ({ mutate }) => ({
-    submit: (repoFullName) => mutate({ variables: { repoFullName } }),
-  }),
-})(NewEntry);
 
 const mutation = gql`
 mutation addSong($title: String!) {
