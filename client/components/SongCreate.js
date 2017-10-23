@@ -2,49 +2,76 @@ import React, { Component } from 'react';
 
 import { Form, Input, Label, Button } from 'semantic-ui-react'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
 class SongCreate extends Component {
+
+  constructor() {
+    super()
+
+    this.state = {
+      success: false,
+      title: '',
+      mutationOccuring: false
+    }
+  }
   
   handleChange = (e, data) => { 
     const { value } = data;
 
-    value.length ? this.setState({ value }) : this.setState({ value: null });
+    this.setState({ title: value })
   }
 
   handleSubmit = (e, data) => {
     e.preventDefault();
 
-    const title = this.state.value; 
-  
+    const title = this.state.title; 
+    
+    // Write HOC to deal w this ?
+    this.setState({ mutationOccuring: true })
+
     this.props.mutate({
       variables: { title: title }
-    }).then(({ data }) => {
-        console.log('data', data);
-      }).catch((error) => {
-        console.log('there was an error sending the query', error);
-      });
+    })
+    .then(({ data }) => {
+      this.setState({ 
+        success: true,
+        title: '',
+        mutationOccuring: false
+      })
+
+      this.props.history.push('/')
+    })
+    .catch((error) => {
+      this.setState({ mutationOccuring: false })
+      console.log('there was an error sending the query', error);
+    });
   }
 
   render() {
-    console.log('this.state', this.state)
+    const songSubmitted = (<div>Song Submitted!!</div>)
+
     return(
       <div>
-        <h3> Add a new song! </h3>
+        <h3>Add a new song!</h3>
         <Form onSubmit={ this.handleSubmit }>
           <Input
+            loading={ this.state.mutationOccuring }
             icon={{
               name: 'add',
               circular: true, 
               link: true, 
               onClick: this.handleSubmit 
             }}
+            value={ this.state.title }
             placeholder='Title...'
             onChange={ this.handleChange }
-            action={ true }
+            
           />
         </Form>
+
+        { this.state.success ? songSubmitted : null }
       </div>
     )
   }

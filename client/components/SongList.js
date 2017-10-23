@@ -32,7 +32,11 @@ class SongList extends Component {
         }
         
         <hr /> 
-        <Link to="/song-create">Create Song</Link>
+        <Link to="/songs/new">
+          <Button>
+            +
+          </Button>
+        </Link>
       </Segment.Group>
     )
   }

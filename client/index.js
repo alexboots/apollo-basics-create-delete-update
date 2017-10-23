@@ -22,7 +22,7 @@ const Root = () => {
       <BrowserRouter>
         <App>
           <Route exact path="/" component={ SongList } />
-          <Route path="/song-create" component={ SongCreate } />
+          <Route path="/songs/new" component={ SongCreate } />
         </App>
       </BrowserRouter>
     </ApolloProvider>
