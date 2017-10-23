@@ -10,13 +10,24 @@ import queryDeleteSong from '../queries/deleteSong'
 
 class SongList extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      deleting: {}
+    }
+  }
+
   handleDeleteSong = (songId) => {
+
+    this.setState({ deleting : { [songId]: 'deleting' } })
+    
     this.props.mutate({
       variables: { id: songId },
       refetchQueries: [{ query: queryFetchSongs }]
     })
-    .then(({ data }) => {
-      console.log('??', data);
+    .then(response => {
+      this.setState({ deleting: { [songId]: 'deleted' } })
     })
     .catch(error => {
       console.log('there was an error sending the query', error);
@@ -25,16 +36,31 @@ class SongList extends Component {
 
   renderSongs = () => {
     const { data } = this.props;
-    const { songs} = data;
+    const { songs } = data;
 
     return songs.map((song) => {
+
+      // This ain't that nice, can clean up
+      if(this.state.deleting[song.id] === 'deleting') {
+        return (
+          <Loader 
+            active 
+            inline 
+            key={ song.id } 
+          />
+        )
+      } else if(this.state.deleting[song.id] === 'deleted') {
+        return null
+      }
+
+
       return (
         <List.Item key={ song.id }>
           <List.Icon 
             name='delete'
             color='red'
             onClick={ () => this.handleDeleteSong(song.id) }
-          />
+          /> 
           <List.Content>
             { song.title }
           </List.Content>
