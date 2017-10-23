@@ -1,8 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import ApolloClient from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
+// ApolloProvider assumes the endpoint is at /graphql
+
+import App from './components/App'
+
+import SongList    from './components/SongList';
+import SongDetail  from './components/SongDetail';
+import SongCreate  from './components/SongCreate';
+import LyricList   from './components/LyricList';
+import LyricCreate from './components/LyricCreate';
+
+const client = new ApolloClient({});
 
 const Root = () => {
-  return <div>Lyrical</div>
+  return (
+    <ApolloProvider client={ client }>
+      <BrowserRouter>
+        <App>
+          <Route exact path="/" component={ SongList } />
+          <Route path="/song-create" component={ SongCreate } />
+        </App>
+      </BrowserRouter>
+    </ApolloProvider>
+  )
 };
 
 ReactDOM.render(
