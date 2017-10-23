@@ -5,6 +5,9 @@ import { Form, Input, Label, Button } from 'semantic-ui-react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
+import queryAddSong from '../queries/addSong'
+import queryFetchSongs from '../queries/fetchSongs'
+
 class SongCreate extends Component {
 
   constructor() {
@@ -32,7 +35,10 @@ class SongCreate extends Component {
     this.setState({ mutationOccuring: true })
 
     this.props.mutate({
-      variables: { title: title }
+      variables: { title: title },
+      // Passing in actual GraphQL query here `{fetchStuff: { title`}}
+      //  but import query duh instead of hard coded like a silly
+      refetchQueries: [{ query: queryFetchSongs }]
     })
     .then(({ data }) => {
       this.setState({ 
@@ -77,13 +83,4 @@ class SongCreate extends Component {
   }
 } 
 
-const mutation = gql`
-mutation addSong($title: String!) {
-    addSong(title: $title) {
-    title,
-    id
-  }
-}
-`;
-
-export default graphql(mutation)(SongCreate);
+export default graphql(queryAddSong)(SongCreate);

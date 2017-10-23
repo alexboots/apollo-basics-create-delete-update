@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { HashRouter, Route, Link } from 'react-router-dom';
 
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
@@ -19,12 +19,12 @@ const client = new ApolloClient({});
 const Root = () => {
   return (
     <ApolloProvider client={ client }>
-      <BrowserRouter>
+      <HashRouter>
         <App>
           <Route exact path="/" component={ SongList } />
           <Route path="/songs/new" component={ SongCreate } />
         </App>
-      </BrowserRouter>
+      </HashRouter>
     </ApolloProvider>
   )
 };
