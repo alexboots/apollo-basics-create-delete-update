@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, Link } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
@@ -23,6 +23,7 @@ const Root = () => {
         <App>
           <Route exact path="/" component={ SongList } />
           <Route path="/songs/new" component={ SongCreate } />
+          <Route path="/songs/:id" component={ SongDetail } />
         </App>
       </HashRouter>
     </ApolloProvider>

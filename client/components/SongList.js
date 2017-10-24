@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { List, Button, Loader } from 'semantic-ui-react';
 
@@ -20,14 +20,14 @@ class SongList extends Component {
 
   handleDeleteSong = (songId) => {
 
-    this.setState({ deleting : { [songId]: 'deleting' } })
+    this.setState({ deleting : { [songId]: true } })
     
     this.props.mutate({
-      variables: { id: songId },
-      refetchQueries: [{ query: queryFetchSongs }]
+      variables: { id: songId }
     })
     .then(response => {
-      this.setState({ deleting: { [songId]: 'deleted' } })
+      this.props.data.refetch();
+      this.setState({ deleting: {} }) // Set it back to an empty object
     })
     .catch(error => {
       console.log('there was an error sending the query', error);
@@ -40,29 +40,24 @@ class SongList extends Component {
 
     return songs.map((song) => {
 
-      // This ain't that nice, can clean up
-      if(this.state.deleting[song.id] === 'deleting') {
-        return (
-          <Loader 
-            active 
-            inline 
-            key={ song.id } 
-          />
-        )
-      } else if(this.state.deleting[song.id] === 'deleted') {
-        return null
-      }
-
-
       return (
         <List.Item key={ song.id }>
           <List.Icon 
             name='delete'
             color='red'
             onClick={ () => this.handleDeleteSong(song.id) }
-          /> 
+          />  
           <List.Content>
-            { song.title }
+            { this.state.deleting[song.id] ? 
+               <Loader 
+                  active 
+                  inline 
+                  size='mini'
+                /> : null
+            }
+            <Link to={ `/songs/${song.id}` }>
+              { song.title }
+            </Link>
           </List.Content>
         </List.Item>
       )
