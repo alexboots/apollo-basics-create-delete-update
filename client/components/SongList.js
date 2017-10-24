@@ -65,8 +65,7 @@ class SongList extends Component {
   }
 
   render() {
-    const { loading, networkStatus } = this.props.data
-    console.log('networkStatus', networkStatus);
+    const { loading } = this.props.data
     return(
       <div>
         <List divided relaxed>

@@ -18,11 +18,6 @@ class SongDetail extends Component {
     const { song } = this.props.data
 
     if(!song) {
-      // This is not good to have to do ? 
-      this.props.data.refetch()
-      // This is because = when you submit a song in LyricCreate,
-      //  song is no longer in this data so gets stuck loading/
-      // There is probably a better solution to this.
       return (<Loader active />)
     }
 
@@ -50,6 +45,6 @@ export default graphql(queryFetchSongDetails, {
   options: (props) => { 
       let { params } = props.match
       return { variables: { id: params.id }
-    } 
+    }
   }
 })(SongDetail)

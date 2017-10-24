@@ -22,7 +22,6 @@ class LyricCreate extends Component {
 
   handleSubmit = (e, data) => {
     e.preventDefault()
-    this.setState({ lyric: '' })
     this.props.mutate({
       variables: { 
         songId: this.props.songId,
@@ -30,6 +29,8 @@ class LyricCreate extends Component {
       }
     })
     .then(response => {
+      // Laggy UI hell yeah
+      this.setState({ lyric: '' })
     })
     .catch(error => {
       console.log('oh no!', error);

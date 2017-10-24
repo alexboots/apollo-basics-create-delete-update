@@ -8,7 +8,6 @@ class LyricList extends Component {
   }
 
   displayLyrics = () => {
-    console.log(this.props);
     return this.props.lyrics.map(lyric => {
       return(
         <List.Item key={ lyric.id }>
