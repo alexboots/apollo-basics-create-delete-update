@@ -1,15 +1,11 @@
 import gql from 'graphql-tag';
 
 export default gql`
-query GetSong($id: ID!){
-  song(id: $id) {
-    id
-    title
-    lyrics {
+  mutation likeLyric($id: ID!) {
+    likeLyric(id:$id) {
       id
       content
       likes
     }
   }
-}
-`
+`;

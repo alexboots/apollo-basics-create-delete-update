@@ -1,23 +1,34 @@
 import React, { Component } from 'react';
 import { List, Button, Loader, Icon } from 'semantic-ui-react';
 
+import { graphql } from 'react-apollo'
+import queryLikeLyric from '../queries/likeLyric'
+import queryFetchSongDetails from '../queries/fetchSongDetails'
+
 class LyricList extends Component {
 
-  handleDeleteLyric = (songId) => {
-    console.log('DELETEME', songId);
+  handleLike = (lyricId) => {
+    this.props.mutate({
+      variables: { id: lyricId }
+    })
+    .then(response => {
+      console.log('response', response);
+    })
   }
 
   displayLyrics = () => {
     return this.props.lyrics.map(lyric => {
+      console.log('lyric', lyric);
+      console.log('lyric', lyric.likes);
       return(
         <List.Item key={ lyric.id }>
           <List.Icon 
-            name='delete'
-            color='red'
-            onClick={ () => this.handleDeleteLyric(lyric.id) }
+            name='thumbs outline up'
+            color='green'
+            onClick={ () => this.handleLike(lyric.id) }
           />  
           <List.Content>
-            { lyric.content }
+            { lyric.content } | { lyric.likes || '0' }
           </List.Content>
         </List.Item>
       )
@@ -33,4 +44,4 @@ class LyricList extends Component {
   }
 } 
 
-export default LyricList;
+export default graphql(queryLikeLyric)(LyricList);
