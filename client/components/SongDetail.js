@@ -14,7 +14,7 @@ class SongDetail extends Component {
     console.log("song", song);
 
     if(!song) {
-      return (<Loader />)
+      return (<Loader active />)
     }
 
     return(
