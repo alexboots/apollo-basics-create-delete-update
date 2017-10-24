@@ -11,8 +11,6 @@ import App from './components/App'
 import SongList    from './components/SongList';
 import SongDetail  from './components/SongDetail';
 import SongCreate  from './components/SongCreate';
-import LyricList   from './components/LyricList';
-import LyricCreate from './components/LyricCreate';
 
 const client = new ApolloClient({});
 
@@ -22,8 +20,8 @@ const Root = () => {
       <HashRouter>
         <App>
           <Route exact path="/" component={ SongList } />
-          <Route path="/songs/new" component={ SongCreate } />
-          <Route path="/songs/:id" component={ SongDetail } />
+          <Route exact path="/songs/new" component={ SongCreate } />
+          <Route path="/song/:id" component={ SongDetail } />
         </App>
       </HashRouter>
     </ApolloProvider>

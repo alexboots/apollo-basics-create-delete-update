@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { List, Button, Loader } from 'semantic-ui-react';
+import { List, Button, Loader, Icon } from 'semantic-ui-react';
 
 import { graphql, compose } from 'react-apollo';
 
@@ -55,7 +55,7 @@ class SongList extends Component {
                   size='mini'
                 /> : null
             }
-            <Link to={ `/songs/${song.id}` }>
+            <Link to={ `/song/${song.id}` }>
               { song.title }
             </Link>
           </List.Content>
@@ -65,7 +65,8 @@ class SongList extends Component {
   }
 
   render() {
-    const { loading } = this.props.data
+    const { loading, networkStatus } = this.props.data
+    console.log('networkStatus', networkStatus);
     return(
       <div>
         <List divided relaxed>
@@ -78,7 +79,7 @@ class SongList extends Component {
         
         <Link to="/songs/new">
           <Button>
-            +
+            <Icon name="plus" />
           </Button>
         </Link>
       </div>

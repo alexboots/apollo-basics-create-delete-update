@@ -61,6 +61,10 @@ class SongCreate extends Component {
     return(
       <div>
         <h3>Add a new song!</h3>
+        {/* 
+            Putting handleSubmit on Form as well as
+            Input Icon so it works if user hits enter or clicks
+         */}
         <Form onSubmit={ this.handleSubmit }>
           <Input
             loading={ this.state.mutationOccuring }
