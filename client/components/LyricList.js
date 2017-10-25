@@ -3,7 +3,7 @@ import { List, Button, Loader, Icon } from 'semantic-ui-react';
 
 import { graphql } from 'react-apollo'
 import queryLikeLyric from '../queries/likeLyric'
-import queryFetchSongDetails from '../queries/fetchSongDetails'
+
 
 class LyricList extends Component {
 
@@ -12,14 +12,12 @@ class LyricList extends Component {
       variables: { id: lyricId }
     })
     .then(response => {
-      console.log('response', response);
+      
     })
   }
 
   displayLyrics = () => {
     return this.props.lyrics.map(lyric => {
-      console.log('lyric', lyric);
-      console.log('lyric', lyric.likes);
       return(
         <List.Item key={ lyric.id }>
           <List.Icon 

@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo'
 
 import { Form, Icon, Input } from 'semantic-ui-react';
 import queryAddLyricToSong from '../queries/AddLyricToSong'
+import queryFetchSongDetails from '../queries/fetchSongDetails'
 
 class LyricCreate extends Component {
   constructor(props) {
@@ -26,7 +27,11 @@ class LyricCreate extends Component {
       variables: { 
         songId: this.props.songId,
         content: this.state.lyric
-      }
+      },
+      refetchQueries: [{
+        query: queryFetchSongDetails,
+        variables: { id: this.props.songId }
+      }]
     })
     .then(response => {
       // Laggy UI hell yeah

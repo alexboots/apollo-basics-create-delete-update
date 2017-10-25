@@ -14,11 +14,20 @@ import LyricList   from './LyricList';
 import LyricCreate from './LyricCreate';
 
 class SongDetail extends Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Shoulnd't really have to do this.
+    if(this.props.data.song && !nextProps.data.song) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   render() {
     const { song } = this.props.data
-
     if(!song) {
-      return (<Loader active />)
+      return (<Loader active />) 
     }
 
     const { lyrics, id } = song
