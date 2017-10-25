@@ -7,9 +7,18 @@ import queryLikeLyric from '../queries/likeLyric'
 
 class LyricList extends Component {
 
-  handleLike = (lyricId) => {
+  handleLike = (lyricId, likes) => {
     this.props.mutate({
-      variables: { id: lyricId }
+      variables: { id: lyricId },
+      optimisticResponse: {
+        // We MUST let the optimisticResponse know we are making a mutation
+        __typename: 'Mutation',
+        // You can go to network tab and grab this info
+        likeLyric: {
+          id: lyricId,
+          likes: likes + 1 // guessing it'll add 1 or WHAT ELSE COUOLD HAPPEN DUH
+        }
+      }
     })
     .then(response => {
       
@@ -23,7 +32,7 @@ class LyricList extends Component {
           <List.Icon 
             name='thumbs outline up'
             color='green'
-            onClick={ () => this.handleLike(lyric.id) }
+            onClick={ () => this.handleLike(lyric.id, lyric.likes) }
           />  
           <List.Content>
             { lyric.content } | { lyric.likes || '0' }
