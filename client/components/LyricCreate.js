@@ -27,11 +27,7 @@ class LyricCreate extends Component {
       variables: { 
         songId: this.props.songId,
         content: this.state.lyric
-      },
-      refetchQueries: [{
-        query: queryFetchSongDetails,
-        variables: { id: this.props.songId }
-      }]
+      }
     })
     .then(response => {
       // Laggy UI hell yeah

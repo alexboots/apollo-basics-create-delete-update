@@ -23,6 +23,9 @@ class LyricList extends Component {
     .then(response => {
       
     })
+    .error(error => {
+      console.log('error or whatever', error);
+    })
   }
 
   displayLyrics = () => {
